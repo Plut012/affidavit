@@ -27,14 +27,20 @@ class ExtractorStep(PipelineStep):
 
         Updates state.extracted_components with structured data.
         """
+        logger.info("=" * 60)
+        logger.info("STEP 1: EXTRACTING COMPONENTS FROM NOTES")
+        logger.info("=" * 60)
+
         try:
             # Load and format prompt
+            logger.info(f"Reading interview notes ({len(state.raw_notes)} characters)")
             prompt = self.prompt_loader.format(
                 "01-extraction",
                 notes=state.raw_notes
             )
 
             # Call LLM
+            logger.info("Analyzing notes with AI to extract key information...")
             response = self.client.generate(prompt, max_tokens=4096)
 
             # Parse JSON response
@@ -42,6 +48,7 @@ class ExtractorStep(PipelineStep):
 
             # Validate extraction
             if not extracted:
+                logger.error("ERROR: No components were extracted")
                 state.add_error(
                     self.name,
                     ErrorSeverity.ERROR,
@@ -50,7 +57,19 @@ class ExtractorStep(PipelineStep):
             else:
                 state.extracted_components = extracted
                 state.step_outputs['extraction'] = extracted
-                logger.info(f"Extracted {len(extracted)} components")
+
+                # Log what was found
+                logger.info("")
+                logger.info("EXTRACTION COMPLETE - Found the following:")
+                for key, value in extracted.items():
+                    if value == "MISSING" or not value:
+                        logger.info(f"  ❌ {key}: MISSING")
+                    elif isinstance(value, list):
+                        logger.info(f"  ✓ {key}: {len(value)} items")
+                    else:
+                        preview = str(value)[:60] + "..." if len(str(value)) > 60 else str(value)
+                        logger.info(f"  ✓ {key}: {preview}")
+                logger.info("")
 
         except json.JSONDecodeError as e:
             state.add_error(

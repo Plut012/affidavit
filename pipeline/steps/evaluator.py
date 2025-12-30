@@ -26,8 +26,13 @@ class EvaluatorStep(PipelineStep):
 
         Updates state.evaluation_report with findings.
         """
+        logger.info("=" * 60)
+        logger.info(f"STEP 3: EVALUATING DRAFT (Iteration {state.iteration_count + 1})")
+        logger.info("=" * 60)
+
         # Check prerequisites
         if not state.draft_text:
+            logger.error("ERROR: Cannot evaluate - no draft available")
             state.add_error(
                 self.name,
                 ErrorSeverity.CRITICAL,
@@ -36,6 +41,7 @@ class EvaluatorStep(PipelineStep):
             return state
 
         if not state.extracted_components:
+            logger.error("ERROR: Cannot evaluate - no components available")
             state.add_error(
                 self.name,
                 ErrorSeverity.CRITICAL,
@@ -48,6 +54,7 @@ class EvaluatorStep(PipelineStep):
             components_json = json.dumps(state.extracted_components, indent=2)
 
             # Load and format prompt
+            logger.info("Checking draft for accuracy and quality...")
             prompt = self.prompt_loader.format(
                 "03-evaluation",
                 components=components_json,
@@ -65,18 +72,32 @@ class EvaluatorStep(PipelineStep):
             state.step_outputs[f'evaluation_{state.iteration_count}'] = evaluation
 
             # Log findings
+            logger.info("")
             if not evaluation.get('needs_revision', True):
-                logger.info("Draft is perfect - no issues found!")
+                logger.info("✓ EVALUATION COMPLETE: Draft is perfect!")
+                logger.info("  No issues found - ready to finalize.")
             else:
                 unsupported = len(evaluation.get('unsupported_statements', []))
                 uncertain = len(evaluation.get('uncertain_statements', []))
                 passive = len(evaluation.get('passive_voice_issues', []))
                 ing = len(evaluation.get('ing_word_issues', []))
                 missing = len(evaluation.get('missing_elements', []))
-                logger.warning(
-                    f"Issues found - unsupported: {unsupported}, uncertain: {uncertain}, "
-                    f"passive voice: {passive}, -ing words: {ing}, missing elements: {missing}"
-                )
+
+                total_issues = unsupported + uncertain + passive + ing + missing
+
+                logger.info(f"EVALUATION COMPLETE: Found {total_issues} issues")
+                if unsupported > 0:
+                    logger.info(f"  ❌ Unsupported statements: {unsupported}")
+                if uncertain > 0:
+                    logger.info(f"  ⚠️  Uncertain statements: {uncertain}")
+                if passive > 0:
+                    logger.info(f"  ❌ Passive voice issues: {passive}")
+                if ing > 0:
+                    logger.info(f"  ❌ -ing word issues: {ing}")
+                if missing > 0:
+                    logger.info(f"  ❌ Missing elements: {missing}")
+                logger.info("  → Will revise and check again")
+            logger.info("")
 
         except json.JSONDecodeError as e:
             state.add_error(
