@@ -86,7 +86,19 @@ class AffidavitApp:
         output_frame.grid(row=2, column=0, sticky=(tk.W, tk.E), pady=5)
         output_frame.columnconfigure(1, weight=1)
 
-        ttk.Label(output_frame, text="Save to:").grid(row=0, column=0, padx=(0, 5))
+        # Case/file name
+        ttk.Label(output_frame, text="Case Name:").grid(row=0, column=0, padx=(0, 5), sticky=tk.W)
+
+        self.case_name_var = tk.StringVar()
+        case_name_entry = ttk.Entry(
+            output_frame,
+            textvariable=self.case_name_var,
+            width=50
+        )
+        case_name_entry.grid(row=0, column=1, sticky=(tk.W, tk.E), padx=5)
+
+        # Output directory
+        ttk.Label(output_frame, text="Save to:").grid(row=1, column=0, padx=(0, 5), pady=(5, 0), sticky=tk.W)
 
         self.output_path_var = tk.StringVar(value=str(settings.OUTPUT_DIR))
         output_entry = ttk.Entry(
@@ -94,14 +106,14 @@ class AffidavitApp:
             textvariable=self.output_path_var,
             width=50
         )
-        output_entry.grid(row=0, column=1, sticky=(tk.W, tk.E), padx=5)
+        output_entry.grid(row=1, column=1, sticky=(tk.W, tk.E), padx=5, pady=(5, 0))
 
         browse_button = ttk.Button(
             output_frame,
             text="Browse...",
             command=self._browse_output
         )
-        browse_button.grid(row=0, column=2)
+        browse_button.grid(row=1, column=2, pady=(5, 0))
 
         # Progress section
         progress_frame = ttk.LabelFrame(main_frame, text="Status", padding="10")
@@ -177,6 +189,11 @@ class AffidavitApp:
             messagebox.showwarning("No Notes", "Please enter or load interview notes.")
             return
 
+        case_name = self.case_name_var.get().strip()
+        if not case_name:
+            messagebox.showwarning("No Case Name", "Please enter a case name for organizing the output files.")
+            return
+
         output_path = self.output_path_var.get().strip()
         if not output_path:
             messagebox.showwarning("No Output Path", "Please specify an output location.")
@@ -196,6 +213,7 @@ class AffidavitApp:
         self.runner.start(
             notes=notes,
             output_path=output_path,
+            case_name=case_name,
             progress_callback=self._on_progress,
             completion_callback=self._on_completion
         )

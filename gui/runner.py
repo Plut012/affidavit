@@ -33,6 +33,7 @@ class PipelineRunner:
         self,
         notes: str,
         output_path: str,
+        case_name: str,
         progress_callback: Optional[Callable[[str, int], None]] = None,
         completion_callback: Optional[Callable[[str, bool], None]] = None
     ):
@@ -41,7 +42,8 @@ class PipelineRunner:
 
         Args:
             notes: Raw interview notes
-            output_path: Path for output .docx file
+            output_path: Path for output directory
+            case_name: Name for this case (creates subdirectory)
             progress_callback: Optional callback(message, progress_percent)
             completion_callback: Optional callback(result_message, success)
         """
@@ -52,7 +54,7 @@ class PipelineRunner:
         # Create daemon thread
         self.thread = threading.Thread(
             target=self._run_pipeline,
-            args=(notes, output_path, progress_callback, completion_callback),
+            args=(notes, output_path, case_name, progress_callback, completion_callback),
             daemon=True  # Continues even if GUI closes
         )
 
@@ -64,6 +66,7 @@ class PipelineRunner:
         self,
         notes: str,
         output_path: str,
+        case_name: str,
         progress_callback: Optional[Callable[[str, int], None]],
         completion_callback: Optional[Callable[[str, bool], None]]
     ):
@@ -82,7 +85,8 @@ class PipelineRunner:
             # Create initial state
             initial_state = PipelineState(
                 raw_notes=notes,
-                output_path=output_path
+                output_path=output_path,
+                case_name=case_name
             )
 
             # Run pipeline

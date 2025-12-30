@@ -2,6 +2,7 @@
 Word document generation for affidavit output.
 """
 import json
+import re
 from datetime import datetime
 from pathlib import Path
 from typing import Tuple
@@ -65,7 +66,11 @@ class AffidavitDocxBuilder:
         self._add_evaluation_summary(state)
 
         # Save main document
-        output_path = self._generate_output_path(state.output_path, suffix="draft")
+        output_path = self._generate_output_path(
+            state.output_path,
+            state.case_name,
+            suffix="draft"
+        )
         self.doc.save(output_path)
 
         return output_path
@@ -90,7 +95,11 @@ class AffidavitDocxBuilder:
         self._add_processing_metadata(state)
 
         # Save report
-        output_path = self._generate_output_path(state.output_path, suffix="report")
+        output_path = self._generate_output_path(
+            state.output_path,
+            state.case_name,
+            suffix="report"
+        )
         self.doc.save(output_path)
 
         return output_path
@@ -274,30 +283,45 @@ class AffidavitDocxBuilder:
         else:
             self.doc.add_paragraph("No errors occurred during processing.")
 
-    def _generate_output_path(self, base_path: str, suffix: str = "draft") -> str:
+    def _sanitize_case_name(self, case_name: str) -> str:
         """
-        Generate timestamped output filename.
+        Sanitize case name for use as directory name.
 
         Args:
-            base_path: Base output path/directory
-            suffix: Suffix to add to filename (e.g., "draft", "report")
+            case_name: Raw case name from user
+
+        Returns:
+            Safe directory name
+        """
+        # Convert to lowercase, replace spaces with underscores
+        sanitized = case_name.lower().strip()
+        sanitized = re.sub(r'\s+', '_', sanitized)
+        # Remove any non-alphanumeric characters except underscore and hyphen
+        sanitized = re.sub(r'[^a-z0-9_-]', '', sanitized)
+        # Limit length
+        sanitized = sanitized[:50]
+        return sanitized or "case"
+
+    def _generate_output_path(self, base_path: str, case_name: str, suffix: str = "draft") -> str:
+        """
+        Generate output path in case-specific subdirectory.
+
+        Args:
+            base_path: Base output directory
+            case_name: Name of the case (creates subdirectory)
+            suffix: Filename suffix ("draft" or "report")
 
         Returns:
             Full path to output file
         """
-        path = Path(base_path)
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        # Create case subdirectory
+        base_dir = Path(base_path)
+        safe_case_name = self._sanitize_case_name(case_name)
+        case_dir = base_dir / safe_case_name
 
-        # If path is a directory, generate filename
-        if path.is_dir() or not path.suffix:
-            filename = f"affidavit_{suffix}_{timestamp}.docx"
-            return str(path / filename)
+        # Create directory if it doesn't exist
+        case_dir.mkdir(parents=True, exist_ok=True)
 
-        # If path includes filename, insert suffix before extension
-        if path.suffix == '.docx':
-            stem = path.stem
-            filename = f"{stem}_{suffix}.docx"
-            return str(path.parent / filename)
-        else:
-            filename = f"{path.name}_{suffix}.docx"
-            return str(path.parent / filename)
+        # Simple filenames without timestamp
+        filename = f"{suffix}.docx"
+        return str(case_dir / filename)
