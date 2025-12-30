@@ -74,29 +74,41 @@ class EvaluatorStep(PipelineStep):
 
             # Log findings
             logger.info("")
+
+            # Count issues
+            unsupported = len(evaluation.get('unsupported_statements', []))
+            uncertain = len(evaluation.get('uncertain_statements', []))
+            passive = len(evaluation.get('passive_voice_issues', []))
+            ing = len(evaluation.get('ing_word_issues', []))
+            missing = len(evaluation.get('missing_elements', []))
+
+            blocking_issues = unsupported + uncertain + missing
+            grammar_warnings = passive + ing
+
             if not evaluation.get('needs_revision', True):
-                logger.info("✓ EVALUATION COMPLETE: Draft is perfect!")
-                logger.info("  No issues found - ready to finalize.")
+                logger.info("✓ EVALUATION COMPLETE: Draft approved!")
+                if grammar_warnings > 0:
+                    logger.info(f"  {grammar_warnings} grammar warnings present (non-blocking)")
+                    if passive > 0:
+                        logger.info(f"    ⚠️  Passive voice issues: {passive}")
+                    if ing > 0:
+                        logger.info(f"    ⚠️  -ing word issues: {ing}")
+                else:
+                    logger.info("  No issues found - draft is perfect.")
             else:
-                unsupported = len(evaluation.get('unsupported_statements', []))
-                uncertain = len(evaluation.get('uncertain_statements', []))
-                passive = len(evaluation.get('passive_voice_issues', []))
-                ing = len(evaluation.get('ing_word_issues', []))
-                missing = len(evaluation.get('missing_elements', []))
-
-                total_issues = unsupported + uncertain + passive + ing + missing
-
-                logger.info(f"EVALUATION COMPLETE: Found {total_issues} issues")
+                logger.info(f"EVALUATION COMPLETE: Found {blocking_issues} blocking issue(s)")
                 if unsupported > 0:
                     logger.info(f"  ❌ Unsupported statements: {unsupported}")
                 if uncertain > 0:
-                    logger.info(f"  ⚠️  Uncertain statements: {uncertain}")
-                if passive > 0:
-                    logger.info(f"  ❌ Passive voice issues: {passive}")
-                if ing > 0:
-                    logger.info(f"  ❌ -ing word issues: {ing}")
+                    logger.info(f"  ❌ Uncertain statements: {uncertain}")
                 if missing > 0:
                     logger.info(f"  ❌ Missing elements: {missing}")
+                if grammar_warnings > 0:
+                    logger.info(f"  {grammar_warnings} grammar warning(s) (non-blocking)")
+                    if passive > 0:
+                        logger.info(f"    ⚠️  Passive voice: {passive}")
+                    if ing > 0:
+                        logger.info(f"    ⚠️  -ing words: {ing}")
                 logger.info("  → Will revise and check again")
             logger.info("")
 
