@@ -67,6 +67,12 @@ For each sentence in the draft:
 
 {components}
 
+## Case-Specific Instructions
+
+{case_specifics}
+
+Check that any case-specific instructions above were followed appropriately.
+
 ## Draft to Evaluate
 
 {draft}

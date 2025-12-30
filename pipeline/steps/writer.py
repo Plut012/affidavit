@@ -46,9 +46,13 @@ class WriterStep(PipelineStep):
 
             # Load and format prompt
             logger.info("Generating section using AI...")
+            if state.case_specifics:
+                logger.info(f"Using case-specific guidance: {state.case_specifics[:60]}...")
+
             prompt = self.prompt_loader.format(
                 "02-writing",
-                components=components_json
+                components=components_json,
+                case_specifics=state.case_specifics or "None provided"
             )
 
             # Call LLM

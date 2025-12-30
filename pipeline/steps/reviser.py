@@ -62,7 +62,8 @@ class ReviserStep(PipelineStep):
                 "04-revision",
                 components=components_json,
                 draft=state.draft_text,
-                evaluation=evaluation_json
+                evaluation=evaluation_json,
+                case_specifics=state.case_specifics or "None provided"
             )
 
             # Call LLM

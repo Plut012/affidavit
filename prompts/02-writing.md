@@ -67,6 +67,12 @@ Write this as a **complete narrative with vivid details**, not a summary. Use sp
 
 {components}
 
+## Case-Specific Instructions
+
+{case_specifics}
+
+If specific instructions are provided above, follow them while maintaining all the writing rules and quality standards.
+
 ## Your Response
 
 Write the complete Forced Labor Section following the structure and guidelines above:

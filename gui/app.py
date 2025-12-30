@@ -51,17 +51,34 @@ class AffidavitApp:
         notes_frame = ttk.LabelFrame(main_frame, text="Interview Notes", padding="10")
         notes_frame.grid(row=1, column=0, sticky=(tk.W, tk.E, tk.N, tk.S), pady=5)
         notes_frame.columnconfigure(0, weight=1)
-        notes_frame.rowconfigure(0, weight=1)
+        notes_frame.rowconfigure(0, weight=3)
+        notes_frame.rowconfigure(2, weight=1)
 
         # Text area for notes
         self.notes_text = scrolledtext.ScrolledText(
             notes_frame,
             wrap=tk.WORD,
             width=70,
-            height=15,
+            height=12,
             font=("Arial", 10)
         )
         self.notes_text.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+
+        # Case specifics section
+        ttk.Label(
+            notes_frame,
+            text="Case Specifics (optional instructions/guidance):",
+            font=("Arial", 9)
+        ).grid(row=1, column=0, sticky=tk.W, pady=(10, 2))
+
+        self.case_specifics_text = scrolledtext.ScrolledText(
+            notes_frame,
+            wrap=tk.WORD,
+            width=70,
+            height=3,
+            font=("Arial", 9)
+        )
+        self.case_specifics_text.grid(row=2, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
         # Buttons frame
         button_frame = ttk.Frame(notes_frame)
@@ -80,6 +97,13 @@ class AffidavitApp:
             command=self._clear_notes
         )
         clear_button.grid(row=0, column=1, padx=5)
+
+        clear_specifics_button = ttk.Button(
+            button_frame,
+            text="Clear Specifics",
+            command=self._clear_specifics
+        )
+        clear_specifics_button.grid(row=0, column=2, padx=5)
 
         # Output path section
         output_frame = ttk.LabelFrame(main_frame, text="Output", padding="10")
@@ -172,6 +196,10 @@ class AffidavitApp:
         """Clear the notes text area."""
         self.notes_text.delete(1.0, tk.END)
 
+    def _clear_specifics(self):
+        """Clear the case specifics text area."""
+        self.case_specifics_text.delete(1.0, tk.END)
+
     def _browse_output(self):
         """Browse for output directory."""
         directory = filedialog.askdirectory(
@@ -199,6 +227,9 @@ class AffidavitApp:
             messagebox.showwarning("No Output Path", "Please specify an output location.")
             return
 
+        # Get case specifics (optional)
+        case_specifics = self.case_specifics_text.get(1.0, tk.END).strip()
+
         # Check if runner is already running
         if self.runner.is_running:
             messagebox.showinfo("Already Running", "Pipeline is already running in the background.")
@@ -214,6 +245,7 @@ class AffidavitApp:
             notes=notes,
             output_path=output_path,
             case_name=case_name,
+            case_specifics=case_specifics,
             progress_callback=self._on_progress,
             completion_callback=self._on_completion
         )

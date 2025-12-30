@@ -49,6 +49,12 @@ Fix all issues identified in the evaluation while maintaining narrative quality 
 
 {components}
 
+## Case-Specific Instructions
+
+{case_specifics}
+
+Continue to follow any case-specific instructions above while fixing the identified issues.
+
 ## Current Draft
 
 {draft}

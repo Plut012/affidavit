@@ -58,7 +58,8 @@ class EvaluatorStep(PipelineStep):
             prompt = self.prompt_loader.format(
                 "03-evaluation",
                 components=components_json,
-                draft=state.draft_text
+                draft=state.draft_text,
+                case_specifics=state.case_specifics or "None provided"
             )
 
             # Call LLM

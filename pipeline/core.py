@@ -39,6 +39,7 @@ class PipelineState:
     raw_notes: str
     output_path: str
     case_name: str
+    case_specifics: str = ""
 
     # Intermediate artifacts (populated as pipeline progresses)
     extracted_components: Optional[Dict[str, Any]] = None
