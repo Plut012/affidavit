@@ -1,63 +1,46 @@
-# Affidavit Body Writing Prompt
+# Forced Labor Section Writing Prompt
 
-You are an expert legal writer drafting the body of a T-visa affidavit for a trafficking victim.
+You are an expert legal writer drafting the **Forced Labor Section** of a T-visa affidavit for a trafficking victim.
 
 ## Your Task
 
-Write a compelling affidavit body that tells the client's story as a vivid, detailed narrative. This is a personal story, not a legal report. Make it come alive with specific details and concrete examples.
+Write the Forced Labor Section - the main body of the affidavit that tells the complete story of what the client was forced to do and how the trafficker used force, fraud, and coercion to make them comply.
+
+This is a personal story, not a legal report. Make it come alive with specific details and concrete examples.
 
 **Critical:** This must be comprehensive and detailed - DO NOT summarize or shorten. Tell the complete story.
 
-## Affidavit Structure
+## Section Structure
 
-The affidavit body should follow this structure:
+Write multiple paragraphs (as many as needed to tell the complete story):
 
-### 1. Summary Section (1 paragraph)
-A short, powerful opening that captures everything the client endured. Must use legal terminology: "recruited," "harbored," "forced," "coerced," "involuntary servitude." Establish the elements of force, fraud, and coercion from the start.
+### First Paragraph MUST Include:
+A bulleted list of tasks formatted as:
 
-### 2. Background Section (3-5 paragraphs)
-Develop a coherent and fluid background that demonstrates:
-- Hardship experienced by the client in their home country
-- How they arrived in the United States
-- Important dates (especially US arrival date)
-- Life circumstances that made them vulnerable
+"[Trafficker name] forced me to:"
+- [task 1]
+- [task 2]
+- [task 3]
+- [etc.]
 
-### 3. Recruitment Section (2-4 paragraphs)
-Show how the trafficking began:
-- How they met the trafficker
-- What promises were made (critical for establishing fraud)
-- How the trafficker trapped them for involuntary servitude
-- Vulnerabilities the trafficker exploited
-- The relationship/connection the trafficker developed
+**DO NOT remove or shorten this list.** Include every task from the extracted components.
 
-### 4. Forced Labor Section (multiple paragraphs)
-**This is the main section.** Tell the complete story - be thorough and detailed, NOT brief.
+### Remaining Paragraphs Demonstrate:
 
-**First paragraph MUST include:**
-- A bulleted list of tasks: "[Trafficker name] forced me to:" followed by bullets
-- DO NOT remove or shorten this list
+**The ENDS (what labor was extracted):**
+- What specific work the client performed
+- The conditions under which they worked
+- The scope and duration of the labor
 
-**Remaining paragraphs demonstrate:**
-- **The ENDS**: What labor the trafficker extracted
-- **The MEANS**: How force, fraud, and coercion made the client comply
+**The MEANS (how force, fraud, and coercion made them comply):**
 - Specific instances of abuse, threats, and control mechanisms
-- Why the client was trapped, scared, and had to comply
+- How the trafficker trapped and controlled them
+- Why the client was scared and felt they had to comply
+- Physical force, psychological manipulation, financial control
+- Threats to client or their family
+- Isolation and fear tactics
 
-Write this as a complete narrative with vivid details, not a summary.
-
-### 5. Consequences Section (2-3 paragraphs)
-Detail:
-- The final event/breaking point that pushed them over the edge
-- Steps taken after leaving the situation
-- Where the person is now
-- Physical and psychological trauma and consequences
-- How they didn't know protection existed for people in their position
-
-### 6. Final Section (2-3 paragraphs)
-Explain:
-- Why they need to stay in the US (legal reasons)
-- Why they cannot go back to country of origin
-- Their goals and hopes for the future
+Write this as a **complete narrative with vivid details**, not a summary. Use specific examples and concrete instances from the extracted components.
 
 ## Critical Writing Rules
 
@@ -65,20 +48,20 @@ Explain:
 - **First person**: "I experienced..." not "The client experienced..."
 - **Active voice ALWAYS**: "Bob forced me to clean" NOT "I was forced by Bob to clean"
 - **No -ing participles**: "I cooked" NOT "I was cooking"
-- **Past tense** for completed events, **present tense** only for ongoing situations
+- **Past tense** for completed events
 - **Maximum 6 sentences per paragraph**
 
 ### Quality Standards
 - **Vivid and detailed**: Make it come alive with specific examples
 - **Tell the complete story**: No gaps in the narrative
 - **This is storytelling, not a report**: Compelling and coherent
-- **DO NOT summarize or shorten**: Especially in the forced labor section
+- **DO NOT summarize or shorten**: Tell the full story with all details
 
 ### Content Integrity
 - **NO hallucination**: Only use information from extracted components
 - If component is "MISSING", use placeholder: `[ MISSING: what's needed ]`
 - Never infer or fill gaps
-- Use legal terms naturally: "recruited," "harbored," "forced," "coerced," "involuntary servitude," "force, fraud, and coercion"
+- Use legal terms naturally: "forced," "coerced," "involuntary servitude," "force, fraud, and coercion"
 
 ## Extracted Components
 
@@ -86,4 +69,4 @@ Explain:
 
 ## Your Response
 
-Write the complete affidavit body following the structure and guidelines above:
+Write the complete Forced Labor Section following the structure and guidelines above:
