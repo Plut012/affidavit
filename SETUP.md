@@ -1,4 +1,5 @@
 # Setup Guide - Affidavit Writing Assistant
+## For Windows
 
 ## Prerequisites
 
@@ -6,7 +7,7 @@ Before starting, download and install:
 
 1. **Python 3.12** from https://www.python.org/downloads/
    - ✅ **Important:** Check "Add Python to PATH" during installation
-   
+
 2. **Git** from https://git-scm.com/downloads
    - Use default settings during installation
 
@@ -36,14 +37,8 @@ python -m venv venv
 
 ### 3. Activate Virtual Environment
 
-**Windows:**
 ```bash
 venv\Scripts\activate
-```
-
-**Mac/Linux:**
-```bash
-source venv/bin/activate
 ```
 
 You should see `(venv)` appear at the start of your command prompt.
@@ -60,11 +55,7 @@ This will install the required packages (anthropic, python-docx).
 
 ### Option 1: Use Launcher Script (Easiest)
 
-**Windows:**
-- Double-click `run.bat`
-
-**Mac/Linux:**
-- Double-click `run.sh` (or run `./run.sh` in Terminal)
+Double-click `run.bat`
 
 ### Option 2: Manual Run
 
@@ -88,7 +79,7 @@ The key will be saved locally and you won't need to enter it again.
 ## Usage
 
 1. **Launch the application**
-   - Double-click `run.bat` (Windows) or `run.sh` (Mac/Linux)
+   - Double-click `run.bat`
    
 2. **Enter or load interview notes**
    - Type directly into the text area, or
@@ -110,18 +101,18 @@ The key will be saved locally and you won't need to enter it again.
 
 ## Updating the Application
 
-When updates are available:
+When updates are available, just double-click `update.bat`
 
+Or manually:
 ```bash
 # Navigate to project folder
-cd Documents/affadavit
+cd Documents\affadavit
 
 # Pull latest changes
 git pull
 
 # Activate virtual environment
-# Windows: venv\Scripts\activate
-# Mac/Linux: source venv/bin/activate
+venv\Scripts\activate
 
 # Update dependencies (if needed)
 pip install -r requirements.txt
@@ -136,8 +127,6 @@ pip install -r requirements.txt
 ### "pip not found"
 - Run: `python -m pip install -r requirements.txt`
 
-### "Permission denied" (Mac/Linux)
-- Make run.sh executable: `chmod +x run.sh`
 
 ### API key issues
 - Delete `config/.api_key` file to re-enter your key
