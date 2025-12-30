@@ -74,7 +74,7 @@ For each sentence in the draft:
 ## Output Format
 
 ```json
-{{
+{{{{
   "needs_revision": true or false,
   "unsupported_statements": ["exact text..."],
   "uncertain_statements": ["exact text..."],
@@ -82,14 +82,14 @@ For each sentence in the draft:
   "ing_word_issues": ["exact text..."],
   "missing_elements": ["description of what's missing"],
   "summary": "Brief summary of findings"
-}}
+}}}}
 ```
 
 Set `needs_revision: false` only if ALL issue arrays are empty.
 
 If draft is perfect:
 ```json
-{{
+{{{{
   "needs_revision": false,
   "unsupported_statements": [],
   "uncertain_statements": [],
@@ -97,7 +97,7 @@ If draft is perfect:
   "ing_word_issues": [],
   "missing_elements": [],
   "summary": "Draft meets all requirements."
-}}
+}}}}
 ```
 
 ## Your Response

@@ -32,12 +32,12 @@ For each component, extract ONLY the information that is explicitly stated or cl
 Return your response as a JSON object with the following structure:
 
 ```json
-{
+{{
   "trafficker_identity": "extracted content or MISSING",
   "tasks": ["task 1", "task 2", ...] or "MISSING",
   "forced_labor_abuse": "extracted content or MISSING",
   "force_fraud_coercion": "extracted content or MISSING"
-}
+}}
 ```
 
 ## Important Guidelines
